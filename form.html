@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Upload Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            font-size: 1.8rem;
+            padding: 20px 0;
+            background-color: #009688;
+            margin: 0;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        textarea, input[type="file"], input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 1rem;
+        }
+
+        textarea {
+            height: 150px;
+        }
+
+        input[type="file"] {
+            cursor: pointer;
+        }
+
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        #message {
+            color: #007BFF;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <h2>Upload Files and Description/URL</h2>
+    <form id="fileUploadForm">
+        <label for="description">Description/URL:</label>
+        <textarea id="description" name="description" rows="4" cols="50" required></textarea>
+
+        <label for="file">Select a file to upload (Video, Audio, or Photo):</label>
+        <input type="file" id="file" name="file" accept="audio/*,video/*,image/*" required>
+
+        <input type="submit" value="Upload">
+    </form>
+
+    <div id="message"></div>
+
+    <script>
+        document.getElementById("fileUploadForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            
+            const description = document.getElementById("description").value;
+            const fileInput = document.getElementById("file");
+            
+            if (description.trim() === "") {
+                showMessage("Description/URL cannot be empty.");
+                return;
+            }
+            
+            if (!fileInput.files || fileInput.files.length === 0) {
+                showMessage("Please select a file.");
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const allowedTypes = ["image", "audio", "video"];
+            const fileType = file.type.split("/")[0];
+            
+            if (!allowedTypes.includes(fileType)) {
+                showMessage("Invalid file type. Please select an image, audio, or video file.");
+                return;
+            }
+            
+            showMessage("Form submitted successfully.");
+            
+            document.getElementById("fileUploadForm").reset();
+        });
+        
+        function showMessage(message) {
+            const messageDiv = document.getElementById("message");
+            messageDiv.innerHTML = message;
+        }
+    </script>
+</body>
+</html>
